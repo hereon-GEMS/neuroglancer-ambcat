@@ -27,6 +27,9 @@ import * as webpackMerge from "webpack-merge";
 import yargs from "yargs";
 import { normalizeConfigurationWithDefine } from "./rspack/configuration_with_define.js";
 import { setConfig } from "./rspack/rspack_config_from_cli.js";
+import fs from "node:fs";
+import os from "node:os";
+import path from "node:path";
 
 export interface WebpackConfigurationWithDefine extends Configuration {
   define?: Record<string, any> | undefined;
@@ -220,17 +223,30 @@ function parseArgs() {
             default: "localhost",
           },
         }),
-      handler: async (argv) => {
-        setConfig(
-          await getWebpackConfig(argv, {
-            devServer: {
-              port: argv.port === 0 ? "auto" : argv.port,
-              host: argv.host,
-            },
-          }),
-        );
-        await runWebpack("serve", `--mode=${argv.mode}`);
+
+handler: async (argv) => {
+  setConfig(
+    await getWebpackConfig(argv, {
+      devServer: {
+        port: argv.port === 0 ? "auto" : argv.port,
+        host: argv.host,
+server: {
+  type: "https",
+  options: {
+    key: fs.readFileSync(
+      path.resolve(os.homedir(), "server_keys/server-key.pem")
+    ),
+    cert: fs.readFileSync(
+      path.resolve(os.homedir(), "server_keys/all-cert-AMBCAT.pem")
+    ),
+  },
+},
       },
+    }),
+  );
+  await runWebpack("serve", `--mode=${argv.mode}`);
+},
+
     })
     .command({
       command: "build",
