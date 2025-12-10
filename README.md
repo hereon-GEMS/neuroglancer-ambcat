@@ -1,15 +1,15 @@
-## Neuroglancer: Web-based volumetric data visualization
+## Neuroglancer: Web-based volumetric data visualization (AMBCAT fork)
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![PyPI](https://img.shields.io/pypi/v/neuroglancer)](https://pypi.org/project/neuroglancer)
-![Build](https://github.com/google/neuroglancer/actions/workflows/build.yml/badge.svg)
-[![DOI](https://zenodo.org/badge/59798355.svg)](https://zenodo.org/badge/latestdoi/59798355)
+
+This repository is a **fork of [Neuroglancer](https://github.com/google/neuroglancer)**, modified specifically for the [AMBCAT project](https://github.com/hereon-GEMS/ambcat-explorer).  
+It includes custom server modifications and adjustments for AMBCAT data visualization.
 
 Neuroglancer is a WebGL-based viewer for volumetric data. It is capable of displaying arbitrary (non axis-aligned) cross-sectional views of volumetric data, as well as 3-D meshes and line-segment based models (skeletons).
 
-Refer to the documentation website at https://neuroglancer-docs.web.app for more details.
+Refer to the official documentation website at https://neuroglancer-docs.web.app for more details.
 
-This is not an official Google product.
+> **Note:** This is **not an official Google product**. Modifications are maintained independently for the AMBCAT project.
 
 # Examples
 
