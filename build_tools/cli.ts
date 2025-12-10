@@ -21,15 +21,13 @@ import { pathToFileURL } from "node:url";
 import path from "path";
 import { RspackCLI } from "@rspack/cli";
 import type { Configuration } from "@rspack/core";
-import ESLintPlugin from "eslint-rspack-plugin";
-import { TsCheckerRspackPlugin } from "ts-checker-rspack-plugin";
 import * as webpackMerge from "webpack-merge";
 import yargs from "yargs";
 import { normalizeConfigurationWithDefine } from "./rspack/configuration_with_define.js";
 import { setConfig } from "./rspack/rspack_config_from_cli.js";
 import fs from "node:fs";
 import os from "node:os";
-import path from "node:path";
+//import path from "node:path";
 
 export interface WebpackConfigurationWithDefine extends Configuration {
   define?: Record<string, any> | undefined;
@@ -83,7 +81,7 @@ async function getWebpackConfig(
   ...extraConfigs: WebpackConfigurationWithDefine[]
 ): Promise<(...args: any[]) => Configuration> {
   const configPaths = [
-    pathToFileURL(path.resolve(import.meta.dirname, "../rspack.config.js"))
+    pathToFileURL(path.resolve(import.meta.dirname, "../rspack.config.ts"))
       .href,
     ...argv.config.map((configPath) => pathToFileURL(configPath).href),
   ];
@@ -110,22 +108,8 @@ async function getWebpackConfig(
     if (outDir !== undefined) {
       outDir = path.resolve(outDir);
     }
-    const plugins = [];
-    if (argv.typecheck) {
-      plugins.push(new TsCheckerRspackPlugin());
-    }
-    if (argv.lint) {
-      plugins.push(
-        new ESLintPlugin({
-          configType: "flat",
-          files: ".",
-          threads: true,
-        }),
-      );
-    }
     const inlineConfig = {
       define: argv.define,
-      plugins,
       output: {
         path: outDir,
       },
@@ -158,11 +142,13 @@ function parseArgs() {
         type: "boolean",
         default: true,
         description: "Typecheck the TypeScript code.",
+        deprecated: "Has no effect, run typecheck separately.",
       },
       lint: {
         type: "boolean",
         default: true,
         description: "Run eslint.",
+        deprecated: "Has no effect, run linting separately.",
       },
       python: {
         type: "boolean",
